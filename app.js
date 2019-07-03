@@ -3,10 +3,12 @@ const expressLayouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const path = require("path");
+const methodOverride = require("method-override");
 
 const app = express();
 dotenv.config();
 
+app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs");
@@ -17,6 +19,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const indexRouter = require("./routes/index");
 const authorRouter = require("./routes/author");
+const bookRouter = require("./routes/books");
+app.use("/books", bookRouter);
 app.use("/authors", authorRouter);
 app.use("/", indexRouter);
 
